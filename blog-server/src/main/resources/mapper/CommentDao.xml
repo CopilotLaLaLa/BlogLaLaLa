@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spbo.blog.dao.CommentDao">
+  <resultMap id="BaseResultMap" type="com.spbo.blog.domain.Comment">
+    <id column="idComment" jdbcType="INTEGER" property="idcomment" />
+    <result column="Cmuser" jdbcType="VARCHAR" property="cmuser" />
+    <result column="Cmatc" jdbcType="INTEGER" property="cmatc" />
+    <result column="Cmtime" jdbcType="VARCHAR" property="cmtime" />
+    <result column="Cmischild" jdbcType="BIT" property="cmischild" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.spbo.blog.domain.CommentWithBLOBs">
+    <result column="Cmrp" jdbcType="LONGVARCHAR" property="cmrp" />
+    <result column="Cmtext" jdbcType="LONGVARCHAR" property="cmtext" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    idComment, Cmuser, Cmatc, Cmtime, Cmischild
+  </sql>
+  <sql id="Blob_Column_List">
+    Cmrp, Cmtext
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from comment
+    where idComment = #{idcomment,jdbcType=INTEGER}
+  </select>
+  <select id="selectByArticleKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from comment
+    where Cmatc = #{Cmatc,jdbcType=INTEGER}
+  </select>
+  <select id="selectByArticlePageKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from comment
+    where Cmatc = #{Cmatc,jdbcType=INTEGER} and Cmischild=0 LIMIT #{Page,jdbcType=INTEGER},6
+  </select>
+
+  <select id="selectCommentAll" parameterType="java.lang.Integer" resultType="int">
+    select count(*)
+    from comment
+    where Cmatc = #{Cmatc,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectCommentMain" parameterType="java.lang.Integer" resultType="int">
+    select count(*)
+    from comment
+    where Cmatc = #{Cmatc,jdbcType=INTEGER} and Cmischild=0
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from comment
+    where idComment = #{idcomment,jdbcType=INTEGER}
+  </delete>
+
+  <delete id="deleteByCmatc" parameterType="java.lang.Integer">
+    delete from comment
+    where Cmatc = #{Cmatc,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" keyColumn="idComment" keyProperty="idcomment" parameterType="com.spbo.blog.domain.CommentWithBLOBs" useGeneratedKeys="true">
+    insert into comment (Cmuser, Cmatc, Cmtime, 
+      Cmischild, Cmrp, Cmtext
+      )
+    values (#{cmuser,jdbcType=VARCHAR}, #{cmatc,jdbcType=INTEGER}, #{cmtime,jdbcType=VARCHAR}, 
+      #{cmischild,jdbcType=BIT}, #{cmrp,jdbcType=LONGVARCHAR}, #{cmtext,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="idComment" keyProperty="idcomment" parameterType="com.spbo.blog.domain.CommentWithBLOBs" useGeneratedKeys="true">
+    insert into comment
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="cmuser != null">
+        Cmuser,
+      </if>
+      <if test="cmatc != null">
+        Cmatc,
+      </if>
+      <if test="cmtime != null">
+        Cmtime,
+      </if>
+      <if test="cmischild != null">
+        Cmischild,
+      </if>
+      <if test="cmrp != null">
+        Cmrp,
+      </if>
+      <if test="cmtext != null">
+        Cmtext,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="cmuser != null">
+        #{cmuser,jdbcType=VARCHAR},
+      </if>
+      <if test="cmatc != null">
+        #{cmatc,jdbcType=INTEGER},
+      </if>
+      <if test="cmtime != null">
+        #{cmtime,jdbcType=VARCHAR},
+      </if>
+      <if test="cmischild != null">
+        #{cmischild,jdbcType=BIT},
+      </if>
+      <if test="cmrp != null">
+        #{cmrp,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="cmtext != null">
+        #{cmtext,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.spbo.blog.domain.CommentWithBLOBs">
+    update comment
+    <set>
+      <if test="cmuser != null">
+        Cmuser = #{cmuser,jdbcType=VARCHAR},
+      </if>
+      <if test="cmatc != null">
+        Cmatc = #{cmatc,jdbcType=INTEGER},
+      </if>
+      <if test="cmtime != null">
+        Cmtime = #{cmtime,jdbcType=VARCHAR},
+      </if>
+      <if test="cmischild != null">
+        Cmischild = #{cmischild,jdbcType=BIT},
+      </if>
+      <if test="cmrp != null">
+        Cmrp = #{cmrp,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="cmtext != null">
+        Cmtext = #{cmtext,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where idComment = #{idcomment,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.spbo.blog.domain.CommentWithBLOBs">
+    update comment
+    set Cmuser = #{cmuser,jdbcType=VARCHAR},
+      Cmatc = #{cmatc,jdbcType=INTEGER},
+      Cmtime = #{cmtime,jdbcType=VARCHAR},
+      Cmischild = #{cmischild,jdbcType=BIT},
+      Cmrp = #{cmrp,jdbcType=LONGVARCHAR},
+      Cmtext = #{cmtext,jdbcType=LONGVARCHAR}
+    where idComment = #{idcomment,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.spbo.blog.domain.Comment">
+    update comment
+    set Cmuser = #{cmuser,jdbcType=VARCHAR},
+      Cmatc = #{cmatc,jdbcType=INTEGER},
+      Cmtime = #{cmtime,jdbcType=VARCHAR},
+      Cmischild = #{cmischild,jdbcType=BIT}
+    where idComment = #{idcomment,jdbcType=INTEGER}
+  </update>
+  <update id="updateByCmrp" parameterType="com.spbo.blog.domain.CommentWithBLOBs">
+    update comment
+    set Cmrp = concat(IFNULL(Cmrp,''),#{cmrpadd,jdbcType=LONGVARCHAR})
+    where idComment = #{idcomment,jdbcType=INTEGER}
+  </update>
+  <update id="removeByCmrp" parameterType="com.spbo.blog.domain.CommentWithBLOBs">
+    update comment
+    set Cmrp = REPLACE(Cmrp,#{cmrpremove,jdbcType=LONGVARCHAR},"")
+    where idComment = #{idcomment,jdbcType=INTEGER}
+  </update>
+</mapper>

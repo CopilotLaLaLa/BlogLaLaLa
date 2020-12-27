@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spbo.blog.dao.UsermsgDao">
+  <resultMap id="BaseResultMap" type="com.spbo.blog.domain.Usermsg">
+    <id column="iduser" jdbcType="VARCHAR" property="iduser" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="useract" jdbcType="VARCHAR" property="useract" />
+    <result column="userpsw" jdbcType="VARCHAR" property="userpsw" />
+    <result column="userroot" jdbcType="BIT" property="userroot" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.spbo.blog.domain.Usermsg">
+    <result column="userhig" jdbcType="LONGVARCHAR" property="userhig" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    iduser, username, useract, userpsw, userroot
+  </sql>
+  <sql id="Blob_Column_List">
+    userhig
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select iduser,username,useract,userroot
+    ,
+    <include refid="Blob_Column_List" />
+    from usermsg
+    where iduser = #{iduser,jdbcType=VARCHAR}
+  </select>
+
+  <select id="userLogin" resultMap="ResultMapWithBLOBs">
+    select <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from usermsg
+    where iduser = #{iduser,jdbcType=VARCHAR} and userpsw = #{userpsw,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from usermsg
+    where iduser = #{iduser,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="iduser" keyProperty="iduser" parameterType="com.spbo.blog.domain.Usermsg" useGeneratedKeys="true">
+    insert into usermsg (iduser,username, useract, userpsw,
+      userroot, userhig)
+    values (#{iduser,jdbcType=VARCHAR},#{username,jdbcType=VARCHAR}, #{useract,jdbcType=VARCHAR}, #{userpsw,jdbcType=VARCHAR},
+      0, #{userhig,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="iduser" keyProperty="iduser" parameterType="com.spbo.blog.domain.Usermsg" useGeneratedKeys="true">
+    insert into usermsg
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="username != null">
+        username,
+      </if>
+      <if test="useract != null">
+        useract,
+      </if>
+      <if test="userpsw != null">
+        userpsw,
+      </if>
+      <if test="userroot != null">
+        userroot,
+      </if>
+      <if test="userhig != null">
+        userhig,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="useract != null">
+        #{useract,jdbcType=VARCHAR},
+      </if>
+      <if test="userpsw != null">
+        #{userpsw,jdbcType=VARCHAR},
+      </if>
+      <if test="userroot != null">
+        #{userroot,jdbcType=BIT},
+      </if>
+      <if test="userhig != null">
+        #{userhig,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.spbo.blog.domain.Usermsg">
+    update usermsg
+    <set>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="useract != null">
+        useract = #{useract,jdbcType=VARCHAR},
+      </if>
+      <if test="userpsw != null">
+        userpsw = #{userpsw,jdbcType=VARCHAR},
+      </if>
+      <if test="userroot != null">
+        userroot = #{userroot,jdbcType=BIT},
+      </if>
+      <if test="userhig != null">
+        userhig = #{userhig,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where iduser = #{iduser,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.spbo.blog.domain.Usermsg">
+    update usermsg
+    set username = #{username,jdbcType=VARCHAR},
+      useract = #{useract,jdbcType=VARCHAR},
+      userpsw = #{userpsw,jdbcType=VARCHAR},
+      userroot = #{userroot,jdbcType=BIT},
+      userhig = #{userhig,jdbcType=LONGVARCHAR}
+    where iduser = #{iduser,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.spbo.blog.domain.Usermsg">
+    update usermsg
+    set username = #{username,jdbcType=VARCHAR},
+      useract = #{useract,jdbcType=VARCHAR},
+      userpsw = #{userpsw,jdbcType=VARCHAR},
+      userroot = #{userroot,jdbcType=BIT}
+    where iduser = #{iduser,jdbcType=VARCHAR}
+  </update>
+  <update id="updatePassword">
+    update usermsg
+    set userpsw = #{userpsw,jdbcType=VARCHAR},
+    where iduser = #{iduser,jdbcType=VARCHAR} and userpsw=#{oldPassword,jdbcType=VARCHAR}
+  </update>
+</mapper>

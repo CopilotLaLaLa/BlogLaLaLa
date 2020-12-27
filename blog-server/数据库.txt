@@ -1,0 +1,29 @@
+article（文章）：
+idArticle：文章号
+Acname：文章名
+Actext：文章正文
+Actime：发布时间
+Actag：文章标签
+
+comment（评论）：
+idComment：评论号
+Cmuser: 评论者id
+Cmatc：评论的文章id
+Cmrp：评论的回复id
+Cmtext：评论的正文
+Cmtime：评论的时间
+
+usermsg（用户信息）：
+iduser：用户账号
+username：用户名
+useract：用户邮箱
+userpsw：用户密码
+userhig：用户头像链接
+
+后续优化：
+前端：
+	评论提交的反馈
+	js特效优化
+	按钮点击次数限制
+后端：
+	统计评论数量转用SQL查询

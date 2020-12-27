@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spbo.blog.dao.ArticleDao">
+  <resultMap id="BaseResultMap" type="com.spbo.blog.domain.Article">
+    <id column="idArticle" jdbcType="INTEGER" property="idarticle" />
+    <result column="Acname" jdbcType="VARCHAR" property="acname" />
+    <result column="Actime" jdbcType="VARCHAR" property="actime" />
+    <result column="Actag" jdbcType="VARCHAR" property="actag" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.spbo.blog.domain.Article">
+    <result column="Actext" jdbcType="LONGVARCHAR" property="actext" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    idArticle, Acname, Actime, Actag
+  </sql>
+  <sql id="Blob_Column_List">
+    Actext
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from article
+    where idArticle = #{idarticle,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectAllArticle" resultMap="ResultMapWithBLOBs">
+    select * from article
+  </select>
+
+  <select id="selectArticleNum"  resultType="int">
+    select count(*)  from article
+  </select>
+
+  <select id="selectPageArticle" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select *  from article  LIMIT #{Page,jdbcType=INTEGER},6
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from article
+    where idArticle = #{idarticle,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="idArticle" keyProperty="idarticle" parameterType="com.spbo.blog.domain.Article" useGeneratedKeys="true">
+    insert into article (Acname, Actime, Actag, 
+      Actext)
+    values (#{acname,jdbcType=VARCHAR}, #{actime,jdbcType=VARCHAR}, #{actag,jdbcType=VARCHAR}, 
+      #{actext,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="idArticle" keyProperty="idarticle" parameterType="com.spbo.blog.domain.Article" useGeneratedKeys="true">
+    insert into article
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="acname != null">
+        Acname,
+      </if>
+      <if test="actime != null">
+        Actime,
+      </if>
+      <if test="actag != null">
+        Actag,
+      </if>
+      <if test="actext != null">
+        Actext,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="acname != null">
+        #{acname,jdbcType=VARCHAR},
+      </if>
+      <if test="actime != null">
+        #{actime,jdbcType=VARCHAR},
+      </if>
+      <if test="actag != null">
+        #{actag,jdbcType=VARCHAR},
+      </if>
+      <if test="actext != null">
+        #{actext,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.spbo.blog.domain.Article">
+    update article
+    <set>
+      <if test="acname != null">
+        Acname = #{acname,jdbcType=VARCHAR},
+      </if>
+      <if test="actime != null">
+        Actime = #{actime,jdbcType=VARCHAR},
+      </if>
+      <if test="actag != null">
+        Actag = #{actag,jdbcType=VARCHAR},
+      </if>
+      <if test="actext != null">
+        Actext = #{actext,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where idArticle = #{idarticle,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.spbo.blog.domain.Article">
+    update article
+    set Acname = #{acname,jdbcType=VARCHAR},
+      Actime = #{actime,jdbcType=VARCHAR},
+      Actag = #{actag,jdbcType=VARCHAR},
+      Actext = #{actext,jdbcType=LONGVARCHAR}
+    where idArticle = #{idarticle,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.spbo.blog.domain.Article">
+    update article
+    set Acname = #{acname,jdbcType=VARCHAR},
+      Actime = #{actime,jdbcType=VARCHAR},
+      Actag = #{actag,jdbcType=VARCHAR}
+    where idArticle = #{idarticle,jdbcType=INTEGER}
+  </update>
+</mapper>
