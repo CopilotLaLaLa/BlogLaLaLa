@@ -125,7 +125,7 @@
     margin-right: 0;
     color: #ffffff;
 }
->>>.fa-user-circle-o:hover {
+>>>.fa-user-circle:hover {
     animation: wrench 2.5s ease infinite;
 }
 >>>.avatar-s:hover {

@@ -130,7 +130,7 @@ header nav ul li {
     margin-right: 0;
     color: #ffffff;
 }
-.fa-user-circle-o:hover {
+.fa-user-circle:hover {
     animation: wrench 2.5s ease infinite;
 }
 .sticky .lous {
@@ -237,6 +237,7 @@ header nav ul li {
     left:50%;
     top:88%;
     cursor: pointer;
+    z-index: 10;
     -webkit-animation: float 2s linear infinite;
     animation: float 2s linear infinite;
 }

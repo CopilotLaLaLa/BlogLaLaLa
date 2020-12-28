@@ -39,7 +39,8 @@
             </div>
         </div>
         <router-link v-else class="lous" :to="{ name: 'Login'}">
-            <i class="fa fa-user-circle-o fa-2x" aria-hidden="true" ></i>
+            <font-awesome-icon :icon="['fas','user-circle']" size="2x"></font-awesome-icon>
+<!--            <i class="fa fa-user-circle-o fa-2x" aria-hidden="true" ></i>-->
         </router-link>
     </header>
 </template>

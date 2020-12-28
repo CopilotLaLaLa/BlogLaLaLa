@@ -1,7 +1,10 @@
 <template>
     <div>
         <div class="headertop">
-            <div style="color: white" class="head-down" @click="headerTop_down"><i class="fa fa-chevron-down fa-3x" aria-hidden="true"></i></div>
+            <div style="color: white" class="head-down" @click="headerTop_down">
+                <font-awesome-icon :icon="['fas','chevron-down']" size="3x"></font-awesome-icon>
+<!--                <i class="fa fa-chevron-down fa-3x" aria-hidden="true"></i>-->
+            </div>
             <div id="banner_wave_1" ></div>
             <div id="banner_wave_2" ></div>
         </div>
@@ -46,7 +49,8 @@
                     </div>
                 </div>
                 <router-link v-else class="lous" :to="{ name: 'Login'}">
-                    <i class="fa fa-user-circle-o fa-2x" aria-hidden="true" ></i>
+                    <font-awesome-icon :icon="['fas','user-circle']" size="2x"></font-awesome-icon>
+<!--                    <i class="fa fa-user-circle-o fa-2x" aria-hidden="true" ></i>-->
                 </router-link>
             </header>
             <div id="content" class="site-content">
@@ -142,6 +146,6 @@
 
 <style src="../assets/css/mcs.css" scoped>
 </style>
-<style scoped>
-    @import "../assets/css/font-awesome/css/font-awesome.min.css";
-</style>
+<!--<style scoped>-->
+<!--    @import "../assets/css/font-awesome/css/font-awesome.min.css";-->
+<!--</style>-->

@@ -15,8 +15,9 @@
                     <input v-model="Usermsg.userpsw" maxlength="10" oninput="value=value.replace(/[^\d]/g,'')" type="password" autocomplete="off" required>
                     <label>密码</label>
                 </div>
-                <input type="checkbox" @click = "checkbox($event)" class="check-box"><span>滴，我不是机器人</span>
+                <input type="checkbox" @click = "checkbox($event)" class="check-box" style="margin-bottom: 15px"><span style="margin-top: 2px">滴，我不是机器人</span>
                 <button type="submit" @click="sendLogin" class="submit-btn" :disabled="!dis">登陆</button>
+                <router-link :to="{ name: 'index'}"><button type="submit" class="submit-btn" style="margin-top: 15px">回到首页</button></router-link>
             </form>
             <form id="register" style="top: 90px;">
                 <div class="item">
@@ -35,7 +36,7 @@
                     <input v-model="Usermsg.useract" type="email" class="input-field" required>
                     <label>绑定邮箱</label>
                 </div>
-                <input type="checkbox" @click = "checkbox($event)" class="check-box" style="margin-bottom: 10px;"><span style="bottom: 46px;">我同意这些协议。</span>
+                <input type="checkbox" @click = "checkbox($event)" class="check-box" style="margin-bottom: 10px;"><span style="bottom: 47px;">我同意这些协议。</span>
                 <button type="submit" @click="sendRegister" class="submit-btn" :disabled="!dis">注册</button>
             </form>
         </div>
@@ -85,26 +86,34 @@
                 z.style.left = "0";
             },
             sendRegister(){
-                if(this.Usermsg.iduser != null)
-                    this.Usermsg.iduser = this.Usermsg.iduser.trim();
-                if(this.Usermsg.userpsw != null)
-                    this.Usermsg.userpsw = this.Usermsg.userpsw.trim();
-                if(this.Usermsg.repetuserpsw != null)
-                    this.Usermsg.repetuserpsw = this.Usermsg.userpsw.trim();
-                if(this.Usermsg.useract != null)
-                    this.Usermsg.useract = this.Usermsg.useract.trim();
+                // if(this.Usermsg.iduser != null)
+                //     this.Usermsg.iduser = this.Usermsg.iduser.trim();
+                // if(this.Usermsg.userpsw != null)
+                //     this.Usermsg.userpsw = this.Usermsg.userpsw.trim();
+                // if(this.Usermsg.repetuserpsw != null)
+                //     this.Usermsg.repetuserpsw = this.Usermsg.userpsw.trim();
+                // if(this.Usermsg.useract != null)
+                //     this.Usermsg.useract = this.Usermsg.useract.trim();
+                this.dis=false;
                 if( this.Usermsg.iduser == "") {
                     alert("请填写账户信息");
+                    this.dis=true;
                 }else if(this.Usermsg.userpsw == "" ){
                     alert("请填写密码");
+                    this.dis=true;
                 }else if(this.Usermsg.useract == "" ){
                     alert("请填写邮箱");
+                    this.dis=true;
                 } else if(this.Usermsg.userpsw != this.Usermsg.repetuserpsw ){
                     alert("两次输入的密码不一致");
+                    this.dis=true;
                     this.Usermsg.userpsw=null;
                     this.Usermsg.repetuserpsw=null;
                 }else{
-                    this.dis=false;
+                    this.Usermsg.iduser = this.Usermsg.iduser.trim();
+                    this.Usermsg.userpsw = this.Usermsg.userpsw.trim();
+                    this.Usermsg.repetuserpsw = this.Usermsg.userpsw.trim();
+                    this.Usermsg.useract = this.Usermsg.useract.trim();
                     this.$api.Register({
                         iduser:this.Usermsg.iduser,
                         useract:this.Usermsg.useract,
@@ -134,8 +143,10 @@
                     this.Usermsg.userpsw = this.Usermsg.userpsw.trim();
                 if( this.Usermsg.iduser == "") {
                     alert("账号不能为空");
+                    this.dis=true;
                 }else if(this.Usermsg.userpsw == "" ){
                     alert("密码不能为空");
+                    this.dis=true;
                 }else {
                     console.log(this.Usermsg.iduser);
                     console.log(this.Usermsg.userpsw);
