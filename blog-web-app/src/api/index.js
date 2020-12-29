@@ -31,14 +31,14 @@ const api = {
     },
     Register(data) {
         return request({
-            url: '/sign-in',
+            url: '/sign',
             method: 'post',
             data: data
         });
     },
     Login(query) {
         return request({
-            url: '/login',
+            url: '/sLogin',
             method: 'get',
             params: query
         });
@@ -78,6 +78,27 @@ const api = {
             params: query
         });
     },
+    upDataUser(data) {
+        return request({
+            url: '/upInfo',
+            method: 'post',
+            data: data
+        });
+    },
+    changePsd(query) {
+        return request({
+            url: '/password',
+            method: 'get',
+            params: query
+        });
+    },
+    filePost(data){
+        return request({
+            url: '/file',
+            method: 'post',
+            data: data
+        });
+    }
 };
 
 

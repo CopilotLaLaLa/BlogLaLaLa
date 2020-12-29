@@ -13,6 +13,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.15.1",
     "@fortawesome/vue-fontawesome": "^2.0.2",
     "axios": "^0.18.0",
+    "babel-polyfill": "^6.26.0",
     "core-js": "^3.6.5",
     "css-loader": "^5.0.1",
     "file-loader": "^6.2.0",
@@ -22,6 +23,7 @@
     "less-loader": "^7.1.0",
     "style-loader": "^2.0.0",
     "vue": "^2.6.11",
+    "vue-image-crop-upload": "^2.5.0",
     "vue-router": "^3.4.9"
   },
   "devDependencies": {

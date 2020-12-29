@@ -22,7 +22,7 @@
                             </div>
                         </div>
                         <div class="user-menu-option">
-                            <router-link :to="{ name: 'Manage'}">管理文章</router-link>
+                            <router-link :to="{ name: 'userEdit'}">修改信息</router-link>
                             <a @click="userLoginOut" href="JavaScript:;">退出登陆</a>
                         </div>
                     </div>
@@ -77,8 +77,12 @@
     export default {
         name: "Manage",
         created(){
-            this.getLoginMsg();
-            this.getArticle();
+            if (this.$sta.isLogin){
+                this.getLoginMsg();
+                this.getArticle();
+            }else{
+                this.$router.push({path:'/index'});
+            }
         },
         watch:{
             manageArticle(){
@@ -86,6 +90,9 @@
             },
             page(){
                 this.getArticle();
+            },
+            User(){
+                if (!this.User.userroot)this.$router.push({path:'/index'});
             }
         },
         data(){
@@ -112,6 +119,10 @@
                 }).then(res => {
                     this.User=res;
                 }).catch(e => {
+                    this.User.userroot=false;
+                    this.User.iduser=null;
+                    this.User.username=null;
+                    this.User.userhig=null;
                     console.log(e)
                 })
             },
@@ -119,8 +130,9 @@
                 this.$api.loginOut({
                 }).then(res => {
                     if(res){
+                        this.$sta.isLogin=false;
                         alert("登出成功")
-                        this.$router.go(0);
+                        this.$router.push({path:'/index'});
                     }
                 }).catch(e => {
                     console.log(e)
@@ -177,5 +189,4 @@
 </script>
 
 <style src="../assets/css/acs.css" scoped>
-    @import "../assets/css/font-awesome/css/font-awesome.min.css";
 </style>

@@ -46,6 +46,13 @@
 <script>
     export default {
         name: "Login",
+        created() {
+            // if (this.$sta.isLogin){
+            //     this.getLoginMsg();
+            // }else{
+            //     this.$router.push({path:'/index'});
+            // }
+        },
         data(){
             return {
                 Usermsg:{
@@ -148,14 +155,13 @@
                     alert("密码不能为空");
                     this.dis=true;
                 }else {
-                    console.log(this.Usermsg.iduser);
-                    console.log(this.Usermsg.userpsw);
                     this.$api.Login({
                         ciduser:this.Usermsg.iduser,
                         cuserpsw:this.Usermsg.userpsw,
                     }).then(res => {
                         if (res){
-                            this.$router.go(-1);
+                            this.$sta.isLogin = true;
+                            this.$router.push({path:'/index'});
                         }else {
                             this.Usermsg.iduser=null;
                             this.Usermsg.userpsw=null;

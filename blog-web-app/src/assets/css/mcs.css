@@ -379,6 +379,7 @@ main {
 .header-user-name {
     font-size: 12px;
     background: #fff;
+    color: #333;
     padding: 10px;
     border-radius: 4px 4px 0 0;
 }
@@ -423,7 +424,6 @@ main {
     width: 48px;
     height: 48px;
     margin-top: 8px;
-    border: 1px solid #eaeaea;
     border-radius: 50%;
     cursor: pointer;
 }

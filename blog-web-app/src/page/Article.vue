@@ -61,6 +61,3 @@
 
 <style src="../assets/css/acs.css" scoped>
 </style>
-<style scoped>
-    @import "../assets/css/font-awesome/css/font-awesome.min.css";
-</style>

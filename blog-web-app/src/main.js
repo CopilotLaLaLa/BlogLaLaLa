@@ -10,14 +10,32 @@ Vue.component('font-awesome-icon', FontAwesomeIcon);
 library.add(
     faUser,fas
 );
+let sta={
+  firstLogin:false,
+  isLogin:false,
+}
+Vue.prototype.$sta = sta;
 Vue.prototype.$api = api;
+
 Vue.config.productionTip = false
 router.beforeEach((to, from, next) => {
-  // chrome
+  if (!Vue.prototype.$sta.firstLogin){
+    Vue.prototype.$api.getLogin({
+    }).then(res => {
+      Vue.prototype.$sta.firstLogin=true;
+      Vue.prototype.$sta.isLogin=true;
+    }).catch(e => {
+      Vue.prototype.$sta.firstLogin = true;
+      Vue.prototype.$sta.isLogin=false;
+    })
+  }
+
+  if(Vue.prototype.$sta.isLogin && to.path === '/Login' || to.path === '/login'){
+    next('/');
+  }
+
   document.body.scrollTop = 0
-  // firefox
   document.documentElement.scrollTop = 0
-  // safari
   window.pageYOffset = 0
   next();
 })

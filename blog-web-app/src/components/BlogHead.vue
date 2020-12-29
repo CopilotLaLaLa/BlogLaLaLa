@@ -19,6 +19,7 @@
                     </div>
                 </div>
                 <div class="user-menu-option">
+                    <router-link :to="{ name: 'userEdit'}">修改信息</router-link>
                     <router-link :to="{ name: 'Manage'}">管理文章</router-link>
                     <a @click="userLoginOut" href="JavaScript:;">退出登陆</a>
                 </div>
@@ -34,6 +35,7 @@
                     </div>
                 </div>
                 <div class="user-menu-option">
+                    <router-link :to="{ name: 'userEdit'}">修改信息</router-link>
                     <a @click="userLoginOut" href="JavaScript:;">退出登陆</a>
                 </div>
             </div>
@@ -49,7 +51,9 @@
     export default {
         name: "BlogHead",
         created(){
-            this.getLoginMsg();
+            if (this.$sta.isLogin){
+                this.getLoginMsg();
+            }
         },
         data(){
             return{
@@ -67,6 +71,10 @@
                 }).then(res => {
                     this.User=res;
                 }).catch(e => {
+                    this.User.userroot=false;
+                    this.User.iduser=null;
+                    this.User.username=null;
+                    this.User.userhig=null;
                     console.log(e)
                 })
             },
@@ -74,6 +82,7 @@
                 this.$api.loginOut({
                 }).then(res => {
                     if(res){
+                        this.$sta.isLogin=false;
                         alert("登出成功")
                         this.$router.go(0);
                     }
@@ -86,7 +95,6 @@
 </script>
 
 <style scoped>
-    @import "../assets/css/font-awesome/css/font-awesome.min.css";
     .header-user-menu {
         position: absolute;
         width: 110px;

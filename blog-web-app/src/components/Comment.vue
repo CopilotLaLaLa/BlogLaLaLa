@@ -130,7 +130,9 @@
     export default {
         name: "Comment",
         created() {
-            this.getLoginMsg();
+            if (this.$sta.isLogin){
+                this.getLoginMsg();
+            }
             this.getCom();
         },
         watch:{

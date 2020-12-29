@@ -45,6 +45,18 @@ export default new Router({
             meta: { title: '管理' }
         },
         {
+            path: '/userEdit',
+            name: 'userEdit',
+            component: () => import('../page/userEdit'),
+            meta: { title: '个人中心' }
+        },
+        {
+            path: '/changePassWord',
+            name: 'changePassWord',
+            component: () => import('../page/changePassWord'),
+            meta: { title: '修改密码' }
+        },
+        {
             path: '*',
             redirect: '/'
         }

@@ -30,6 +30,7 @@
                         </div>
                         <div class="user-menu-option">
                             <router-link :to="{ name: 'Manage'}">管理文章</router-link>
+                            <router-link :to="{ name: 'userEdit'}">修改信息</router-link>
                             <a @click="this.userLoginOut" href="JavaScript:;">退出登陆</a>
                         </div>
                     </div>
@@ -44,6 +45,7 @@
                             </div>
                         </div>
                         <div class="user-menu-option">
+                            <router-link :to="{ name: 'userEdit'}">修改信息</router-link>
                             <a @click="this.userLoginOut" href="JavaScript:;">退出登陆</a>
                         </div>
                     </div>
@@ -79,7 +81,9 @@
         components: {
         },
         created(){
-            this.getLoginMsg();
+            if (this.$sta.isLogin){
+                this.getLoginMsg();
+            }
             this.getArticle();
         },
         data(){
@@ -108,6 +112,7 @@
             userLoginOut(){
                 this.$api.loginOut({
                 }).then(res => {
+                    this.$sta.isLogin=false;
                     if(res){
                         this.User.userroot=false;
                         this.User.iduser=null;
