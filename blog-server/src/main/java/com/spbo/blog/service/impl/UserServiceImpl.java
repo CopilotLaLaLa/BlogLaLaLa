@@ -39,6 +39,9 @@ public class UserServiceImpl implements UserService {
     }
 
     public boolean updatePassword(String newPassword, String oldPassword,String id){
+        System.out.println("id:"+id);
+        System.out.println("oldPassword:"+oldPassword);
+        System.out.println("newPassword:"+newPassword);
         return UsermsgDao.updatePassword(newPassword,oldPassword,id)==1;
     }
 }

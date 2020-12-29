@@ -16,7 +16,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/sign-in")
+    @PostMapping("/sign")
     public boolean signIn(@RequestBody  Usermsg Usermsg) {
         System.out.println(Usermsg);
         if (Usermsg.getUserhig() == null || "".equals(Usermsg.getUserhig())) {
@@ -29,7 +29,7 @@ public class UserController {
         return false;
     }
 
-    @RequestMapping("/login")
+    @RequestMapping("/sLogin")
     public boolean login(@RequestParam("ciduser")  String iduser,
                           @RequestParam("cuserpsw")  String userpsw,
                           HttpServletResponse response) {
@@ -38,7 +38,7 @@ public class UserController {
         if (null == userModel) {
             return false;
         }
-        Cookie cookie = new Cookie("shUserId", String.valueOf(userModel.getIduser()));
+        Cookie cookie = new Cookie("UserId", String.valueOf(userModel.getIduser()));
         cookie.setMaxAge(60 * 60 * 24 * 30);
         cookie.setPath("/");
         cookie.setHttpOnly(false);
@@ -47,9 +47,9 @@ public class UserController {
     }
 
     @RequestMapping("/logout")
-    public boolean logout(@CookieValue("shUserId")
-                            String shUserId, HttpServletResponse response) {
-        Cookie cookie = new Cookie("shUserId", shUserId);
+    public boolean logout(@CookieValue("UserId")
+                            String UserId, HttpServletResponse response) {
+        Cookie cookie = new Cookie("UserId", UserId);
         cookie.setMaxAge(0);
         cookie.setPath("/");
         cookie.setHttpOnly(true);
@@ -59,13 +59,19 @@ public class UserController {
 
 
     @GetMapping("/info")
-    public Usermsg getOneUser(@CookieValue("shUserId") String id) {
-        userService.getUser(id);
-        return userService.getUser(id);
+    public Usermsg getOneUser(@CookieValue("UserId")  String id) {
+        if ("".equals(id) || id==null){
+            Usermsg fMsg = new Usermsg();
+            fMsg.setUserroot(false);
+            return fMsg;
+        }else {
+            userService.getUser(id);
+            return userService.getUser(id);
+        }
     }
 
     @PostMapping("/upInfo")
-    public boolean updateUserPublicInfo(@CookieValue("shUserId") String id,
+    public boolean updateUserPublicInfo(@CookieValue("UserId") String id,
                                         @RequestBody  Usermsg userModel) {
         userModel.setIduser(id);
         if (userService.updateUserInfo(userModel)) {
@@ -76,7 +82,7 @@ public class UserController {
 
 
     @GetMapping("/password")
-    public boolean updateUserPassword(@CookieValue("shUserId")  String id,
+    public boolean updateUserPassword(@CookieValue("UserId")  String id,
                                        @RequestParam("oldPassword")  String oldPassword,
                                        @RequestParam("newPassword")  String newPassword) {
         if (userService.updatePassword(newPassword,oldPassword,id)) {
@@ -84,4 +90,7 @@ public class UserController {
         }
         return false;
     }
+
+
+
 }

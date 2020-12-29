@@ -18,8 +18,7 @@ public interface UsermsgDao {
 
     int updateByPrimaryKey(Usermsg record);
 
-    Usermsg userLogin(@Param("iduser") String iduser, @Param("userpsw") String userpsw);
+    Usermsg userLogin(String iduser, String userpsw);
 
-    int updatePassword(@Param("String userpsw") String newPassword,
-                       @Param("oldPassword") String oldPassword,@Param("id") String iduser);
+    int updatePassword(String newPassword,String oldPassword,String iduser);
 }

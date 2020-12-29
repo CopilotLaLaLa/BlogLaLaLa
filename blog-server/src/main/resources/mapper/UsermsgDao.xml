@@ -118,9 +118,9 @@
       userroot = #{userroot,jdbcType=BIT}
     where iduser = #{iduser,jdbcType=VARCHAR}
   </update>
-  <update id="updatePassword">
+  <update id="updatePassword" parameterType="java.lang.String">
     update usermsg
-    set userpsw = #{userpsw,jdbcType=VARCHAR},
+    set userpsw = #{newPassword,jdbcType=VARCHAR}
     where iduser = #{iduser,jdbcType=VARCHAR} and userpsw=#{oldPassword,jdbcType=VARCHAR}
   </update>
 </mapper>

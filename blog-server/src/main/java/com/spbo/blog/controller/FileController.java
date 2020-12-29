@@ -1,6 +1,8 @@
 package com.spbo.blog.controller;
 
 import com.spbo.blog.service.FileService;
+import com.spbo.blog.service.UserService;
+import com.spbo.blog.domain.Usermsg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
@@ -25,26 +27,33 @@ public class FileController {
     @Autowired
     private FileService fileService;
 
+    @Autowired
+    private UserService userService;
+
     @PostMapping("/file")
-    public String uploadFile(@RequestParam("file") MultipartFile multipartFile) {
-        String uuid="file"+System.currentTimeMillis();
-        String fileName= multipartFile.getOriginalFilename()+uuid;
+    public boolean uploadFile(@RequestParam("file") MultipartFile multipartFile,@RequestParam("id") String id) {
+        String uuid="img"+System.currentTimeMillis();
+        String fileName= uuid+multipartFile.getOriginalFilename();
         try {
             if (fileService.uploadFile(multipartFile,fileName)) {
                 String result = baseUrl+"/image?imageName="+fileName;
-                return result;
+                Usermsg ud = new Usermsg();
+                ud.setIduser(id);
+                ud.setUserhig(result);
+                userService.updateUserInfo(ud);
+                return true;
             }
         } catch (IOException e) {
-            return null;
+            return false;
         }
-        return null;
+        return false;
     }
 
     @GetMapping("/image")
     public void getImage(@RequestParam("imageName") String imageName,
                          HttpServletResponse response) throws IOException {
         File fileDir = new File(userFilePath);
-        File image=new File(fileDir.getAbsolutePath()+"/image" +"/"+imageName);
+        File image=new File(fileDir.getAbsolutePath()+"/"+imageName);
         if (image.exists()){
             FileInputStream fileInputStream=new FileInputStream(image);
             byte[] bytes=new byte[fileInputStream.available()];
